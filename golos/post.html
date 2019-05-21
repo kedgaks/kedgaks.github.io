@@ -550,13 +550,8 @@ jQuery(document).ready(function($) {
         MD.value(result.body);
         $('#permlink').fadeOut();
         $('.postedit').fadeOut();
-
         });
-
     });
-
-
-
 });
 
 var featuredImage = [];
@@ -612,14 +607,18 @@ jQuery('#post-golos-form').on('submit', function(e) {
     for (tag of tagsraw) {
         tags.push(transform(tag, "-"))
     }
-
+// !!! ==> add "hash":[""]
     var jsonMetadata = {
             "app": appname,
             "format": "markdown",
             "tags": tags,
-            "image": featuredImage
+            "image": featuredImage,
+	    "hash":[""]
         },
-        parentPermlink =(FixParentPermForEdit)?FixParentPermForEdit:tags[0];
+        //parentPermlink =(FixParentPermForEdit)?FixParentPermForEdit:tags[0];
+	//============== !!! ====================
+	parentPermlink = 'goldvoice';
+	//=======================================
     var beneficiaries = document.getElementById("benics").value;
     var Allinpower = document.getElementById("Allinpower").checked;
     var declinePayout = document.getElementById("declinePayout").checked;    
