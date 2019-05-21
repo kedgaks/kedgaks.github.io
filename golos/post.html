@@ -313,20 +313,16 @@ aside {
 
 <section class="golos-form">
 
-
 <form id="post-golos-form" enctype="multipart/form-data">
 <input type="text" name="post-golos-title" id="post-golos-title" required aria-required="true" autocomplete="title" placeholder="Заголовок...">
 <textarea id="text-editor" class="editable"></textarea> 
 <div class="drdrop"><span id="addimg" onclick="document.querySelector('#loadinp').click()">Загрузить фото</span></div><input id="loadinp" style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])">
 
-
-
 <p> <input type="text" id="tags" name="tags" placeholder="теги"></p>
 
-<p class="benevik"><input type="checkbox" id="benevik" name="benevik" value="on" checked>
+<p class="benevik"><input type="checkbox" id="benevik" name="benevik" value="off">
 <label for="benevik">💯 Установить vik и netfriend в бенефициары. Это даст 100% upvote при публикации. Бенефактор 10%+10%</label></p>
-<div class="openExt">
-		
+<div class="openExt">		
 <strong>Расширенные опции - нажмите тут чтобы настроить режим выплаты и бенефициаров <i class="fa fa-caret-down"></i></strong></div> 
 <div id="extend">
         <p>
@@ -358,16 +354,13 @@ aside {
 <input type="submit" value="Отправить">
 </form>
 <div id="alerts"></div>
-
 <div class="postedit">
         <i class="fa fa-close"></i>
-<div class="postedit-wrap">
-    
+<div class="postedit-wrap">    
     <h4>Введите ссылку на пост который хотите отредактировать и нажмите "загрузить в редактор"</h4>
     <code>Пример ссылки golos.io/tag/@vik/md</code>
     <input type="text" id="postediturl" name="postedit" placeholder="Ссылка на пост для редактирования">
     <button id="load4edit">Загрузить в редактор</button>
-
 </div>
 </div>
 </section>
@@ -389,13 +382,10 @@ aside {
 
 <input title="Укажите адрес ноды через которую хотите размещать пост" type="text" id="golosnode" name="golosnode" placeholder="wss://api.golos.cf">
 </aside>
-
-
-
 	 
 <footer id="footer">
-    <iframe id="chat" src="https://chain.chatbro.com" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
-		</footer>
+    <!-- iframe id="chat" src="https://chain.chatbro.com" sandbox="allow-forms allow-scripts allow-same-origin"></iframe -->
+</footer>
 <script>
 
 var tryAgain = "Ошибка чтения данных с ноды, подождите несколько секунд и нажмите отправить еще раз или укажите другой адрес ноды!";
@@ -601,8 +591,6 @@ function upload(file) {
 jQuery('#post-golos-form').on('submit', function(e) {
     e.preventDefault();
 
-
-
     var posttitle = document.getElementById("post-golos-title").value,
         wssgolos = (document.getElementById("golosnode").value)?document.getElementById("golosnode").value:'wss://ws.golos.io',
         post_body = MD.value(),
@@ -617,8 +605,6 @@ jQuery('#post-golos-form').on('submit', function(e) {
             permlink = permlink.replace(/[^a-z0-9-]+/gi, '');
     }
 
-
-
     var tgs = document.getElementById("tags").value,
         tagspace = tgs.toLowerCase().replace(/,/g, ' ').replace(/  /g, ' '),
         tagsraw = tagspace.split(' '),
@@ -626,8 +612,6 @@ jQuery('#post-golos-form').on('submit', function(e) {
     for (tag of tagsraw) {
         tags.push(transform(tag, "-"))
     }
-
-
 
     var jsonMetadata = {
             "app": appname,
@@ -638,9 +622,7 @@ jQuery('#post-golos-form').on('submit', function(e) {
         parentPermlink =(FixParentPermForEdit)?FixParentPermForEdit:tags[0];
     var beneficiaries = document.getElementById("benics").value;
     var Allinpower = document.getElementById("Allinpower").checked;
-    var declinePayout = document.getElementById("declinePayout").checked;
-
-    
+    var declinePayout = document.getElementById("declinePayout").checked;    
 
     var beneficiariesObj = [
         [0, {
@@ -676,11 +658,10 @@ jQuery('#post-golos-form').on('submit', function(e) {
     golos.api.getDynamicGlobalProperties(function(e, g) {
 
         if (e) return alert(tryAgain);
-
         Date.prototype.addHours = function(h) {    
-   this.setTime(this.getTime() + (h*60*60*1000)); 
-   return this;   
-}
+   	this.setTime(this.getTime() + (h*60*60*1000)); 
+   	return this;   
+	}
         var d = new Date(g.time).addHours(1);
         expire = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + "T" + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
 
@@ -697,7 +678,6 @@ jQuery('#post-golos-form').on('submit', function(e) {
             var hex = n[7] + n[6] + n[5] + n[4];
             var refBlockNum = taposBlock - 1 & 0xffff;
             var refBlockPrefix = parseInt(hex, 16)
-
            
             var trx = {
                 "expiration": expire,
@@ -706,8 +686,7 @@ jQuery('#post-golos-form').on('submit', function(e) {
                 "ref_block_num": refBlockNum,
                 "ref_block_prefix": refBlockPrefix
             };
-
-
+		
             var trxs = "";
             try {
                 trxs = golos.auth.signTransaction(trx, {
@@ -719,8 +698,6 @@ jQuery('#post-golos-form').on('submit', function(e) {
 
             }
             console.log(JSON.stringify(trxs))
-
-
 
          golos.api.broadcastTransactionSynchronous(trxs, function(err, result) {
                 console.log(err, result);
