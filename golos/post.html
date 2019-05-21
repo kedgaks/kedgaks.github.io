@@ -314,7 +314,7 @@ aside {
 <section class="golos-form">
 
 <form id="post-golos-form" enctype="multipart/form-data">
-<input type="text" name="post-golos-title" id="post-golos-title" required aria-required="true" autocomplete="title" placeholder="Заголовок...">
+<input type="text" name="post-golos-title" id="post-golos-title" aria-required="false" autocomplete="title" placeholder="Заголовок...">
 <textarea id="text-editor" class="editable"></textarea> 
 <div class="drdrop"><span id="addimg" onclick="document.querySelector('#loadinp').click()">Загрузить фото</span></div><input id="loadinp" style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])">
 
@@ -590,7 +590,7 @@ jQuery('#post-golos-form').on('submit', function(e) {
         wssgolos = (document.getElementById("golosnode").value)?document.getElementById("golosnode").value:'wss://ws.golos.io',
         post_body = MD.value(),
         author = document.getElementById("username").value.toLowerCase().replace(/@/g, ''),
-        appname = (document.getElementById("appname").value)?document.getElementById("appname").value:'@vik',
+        appname = (document.getElementById("appname").value)?document.getElementById("appname").value:'@null',
         wif = document.getElementById("postingkey").value;
     var permlink = document.getElementById("permlink").value.toLowerCase().replace(/\,/g, '-').replace(/\./g, '-');
     golos.config.set('websocket',wssgolos);
