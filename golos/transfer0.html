@@ -57,10 +57,8 @@ golos.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
   if (!err) {
     console.log('transfer', result);
     //console.log('expiration',result.expiration);
-    //console.log('signatures',result.signatures[0]);
-    //ins2('перевод выполнен ', 'transfers');
-    document.getElementById('transfers').innerHTML = ('перевод выполнен ' + result.expiration);
-    //document.getElementById('end').innerHTML = ('The END');
+    //console.log('signatures',result.signatures[0]);    
+    ins('перевод выполнен ' + result.expiration);  
   }
   else console.error(err);
 });
