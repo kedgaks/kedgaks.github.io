@@ -6,6 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <script src="https://unpkg.com/golos-js@0.7.0/dist/golos.min.js"></script>
 </head>	
+<body>		
 <h3>TRANSFER</h3>
 <p><input type="textbox" id="userto" style="width:300px; height:25px" placeholder="null"> кому отправляем</p>
 <p><input type="textbox" id="amount" style="width:300px; height:25px"> сколько отправить</p> 
@@ -32,7 +33,11 @@ golos.config.set('chain_id','782a3039b478c839e4cb0c941ff4eaeb7df40bdd68bd441afd4
 ins2 = function(text, id){
 //	вставим text в поле id (только для <input .. )
  document.getElementById(id).value = text; 
- } 
+ }
+ins = function(x){
+ document.getElementById('out').insertAdjacentHTML('beforeend', '<p class="item">' + x + '</p>');
+ window.scrollTo(0,document.body.scrollHeight);
+ }
 // ==== обработчик кнопки  id="send" 
 document.getElementById('send').onclick = function() {
 	var to     = document.getElementById("userto").value;//аккаунт кому отправляем
@@ -62,8 +67,7 @@ golos.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
 }
 </script>
 <hr>
-<p id="transfers"><b>transfers:</b> </p>
+<p><i id="out"></i></p>	
 <hr>
-<!--h3 id="end">___</h3-->
-
+</body>	
 </html>
