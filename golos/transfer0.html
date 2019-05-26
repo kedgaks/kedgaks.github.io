@@ -8,20 +8,23 @@
 </head>	
 <body>		
 <h3>TRANSFER</h3>
-<p><input type="textbox" id="userto" style="width:300px; height:25px" placeholder="null"> кому отправляем</p>
-<p><input type="textbox" id="amount" style="width:300px; height:25px"> сколько отправить</p> 
+<p>Заполните поля, нажмите [ОТПРАВИТЬ] внизу 
+<input type="button" id="clearAll" value="очистить форму" style="width:130px; height:30px"> </p>
+<p><input type="textbox" id="userto" style="width:300px; height:25px" placeholder="null"> <b>кому</b> отправить</p>
+<p><input type="textbox" id="amount" style="width:90px; height:25px; text-align:right" placeholder="0">.
+   <input type="textbox" id="amount2" style="width:35px; height:25px" placeholder="000">  сколько отправить</p> 
 <p><select id="select-token">
     <option disabled>Выберите токен</option>
     <option value="GBG">GBG</option>    
     <option value="GOLOS">GOLOS</option>     
 </select> выберите GOLOS или GBG</p>
-<p><input type="textbox" id="userfrom" style="width:300px; height:25px"> отправитель</p>
-<p> !! ниже активный ключ отправителя(начинается с 5 ) !!</p>    
-<p><input type="textbox" id="akey" style="width:500px; height:25px" placeholder="5 . . . . . . ."></p>
+<p><input type="textbox" id="userfrom" style="width:300px; height:25px"> <b>отправитель</b></p>
+<p> !! ниже активный ключ отправителя !!</p>    
+<p><input type="textbox" id="akey" style="width:500px; height:25px" placeholder="начинается на 5 . . . . . . ."></p>
 <p>сообщение получателю (memo, не обязательно)<br>
 <b>не</b> стоит отправлять в memo активные и owner ключи, это <b>не</b> безопасно</p>
-<p><input type="textbox" id="memo" style="width:500px; height:25px"></p> 
-<p><input type="button" id="send" value="ОТПРАВИТЬ"style="width:120px; height:30px"></p>
+<p><input type="textbox" id="memo" style="width:500px; height:25px" placeholder="memo"></p> 
+<p><input type="button" id="send" value=" ОТПРАВИТЬ "style="width:120px; height:40px"></p> 
 
 <script>
 // == INIT ==
@@ -38,15 +41,39 @@ ins = function(x){
  document.getElementById('out').insertAdjacentHTML('beforeend', '<p class="item">' + x + '</p>');
  window.scrollTo(0,document.body.scrollHeight);
  }
+cleartext = function(id){
+  document.getElementById(id).value = '';
+} 
+// ==== обработчик кнопки  id="clearAll"
+document.getElementById('clearAll').onclick = function() {
+	let arr = ['userto','userfrom', 'akey', 'amount', 'amount2', 'memo'];
+	for(var i in arr){ cleartext(arr[i]);}	
+}	 
 // ==== обработчик кнопки  id="send" 
 document.getElementById('send').onclick = function() {
 	var to     = document.getElementById("userto").value;//аккаунт кому отправляем
 	var from   = document.getElementById("userfrom").value;//аккаунт отправитель
 	var wif    = document.getElementById("akey").value;//активный ключ аккаунта отправителя
-	var amount = document.getElementById("amount").value;//сколько отправить
+	var amount = document.getElementById("amount").value;//сколько отправить, целая часть
+	var amount2 = document.getElementById("amount2").value;// дробная часть
 	var token  = document.getElementById("select-token").value;//GOLOS или GBG
 	var memo   = document.getElementById("memo").value;//
-	amount = amount + ' ' + token;
+	// проверка amount на правильность
+	if ( amount.length == 0) { amount = '0'; }
+	var amount2len = amount2.length;
+	  switch( amount2len ) { // дополним нулями, чтоб было три цифры после запятой
+		case 2 :
+		amount2 = amount2 + '0';
+		break
+		case 1 :
+		amount2 = amount2 + '00';
+		break
+		case 0 :
+		amount2 = amount2 + '000';
+		break
+	}	
+	amount = amount + '.' + amount2 + ' ' + token;	
+	
 	console.log(amount);
 	console.log(memo);
 
@@ -58,7 +85,7 @@ golos.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
     console.log('transfer', result);
     //console.log('expiration',result.expiration);
     //console.log('signatures',result.signatures[0]);    
-    ins('перевод выполнен ' + result.expiration);  
+    ins('перевод выполнен: ' + amount + ' ( ' + from + ' ==> ' + to  +  ' )  ' + result.expiration); 
   }
   else console.error(err);
 });
