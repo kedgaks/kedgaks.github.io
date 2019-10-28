@@ -1,0 +1,31 @@
+//https://github.com/vikxx/bots/blob/master/sample/historysearch.js
+// Скрипт можно запустить в консоли браузера на golos.cf
+
+console.log('start')
+var ACC = "null" // Аккаунт в котором ищем операции
+var TAG = "test" // Искомый тег
+var limitcount = 0
+var fromcount = 0
+var seq = 1
+// с этими параметрами result.length = 101, выводит последние 101(?) 
+function getStat(f){
+golos.api.getAccountHistory(ACC, fromcount, limitcount, function(err, result){
+   if (err) return console.log(err)
+    for (var name of result) {
+            
+		// СМОТРИМ ВСЕ ОПЕРАЦИИ ТРАНСФЕР
+		if (name[1].op[0] === 'transfer') {
+      console.log('find transfer ' + seq);
+      console.log('  from = ' + name[1].op[1]['from'])
+      console.log('    to = ' + name[1].op[1]['to'])
+      console.log('  memo = ' + name[1].op[1]['memo'])
+      console.log('amount = ' + name[1].op[1]['amount'])             
+    seq = seq + 1;
+      }
+    }
+
+   let last = result[result.length - 1][0]
+    console.log('result.length = ' + result.length );       
+});
+}
+getStat(fromcount) // пример: getStat(30000000) 
