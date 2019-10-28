@@ -28,4 +28,4 @@ golos.api.getAccountHistory(ACC, fromcount, limitcount, function(err, result){
     console.log('result.length = ' + result.length );       
 });
 }
-getStat(fromcount) // пример: getStat(30000000) 
+getStat(fromcount)
