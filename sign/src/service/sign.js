@@ -1,4 +1,4 @@
-const golos = require("golos-js");
+const golos = require("golos-classic-js");
 
 export const SIGN_TYPE = {
     PASSWORD: "password",
