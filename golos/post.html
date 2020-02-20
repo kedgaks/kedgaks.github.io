@@ -607,11 +607,11 @@ jQuery('#post-golos-form').on('submit', function(e) {
     var Allinpower = document.getElementById("Allinpower").checked;
     var declinePayout = document.getElementById("declinePayout").checked;    
 
-    var beneficiariesObj = [
-        [0, {
-            "beneficiaries": (beneficiaries) ? JSON.parse(beneficiaries) : ""
-        }]
-    ];
+   // var beneficiariesObj = [
+   //     [0, {
+   //         "beneficiaries": (beneficiaries) ? JSON.parse(beneficiaries) : ""
+   //     }]
+   // ];
    // if(document.getElementById("benevik").checked){
       //beneficiariesObj = [[0,{"beneficiaries":[{"account":"netfriend","weight":1000},{"account":"vik","weight":1000}]}]];
       //beneficiaries = true
@@ -633,7 +633,7 @@ jQuery('#post-golos-form').on('submit', function(e) {
             "percent_steem_dollars": (Allinpower) ? 0 : 10000,
             "allow_votes": true,
             "allow_curation_rewards": true,
-            "extensions": (beneficiaries) ? beneficiariesObj : []
+            "extensions": []
         }]
     ];
 
