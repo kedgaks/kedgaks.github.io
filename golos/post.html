@@ -317,23 +317,24 @@ aside {
 
 <p> <input type="text" id="tags" name="tags" placeholder="теги"></p>
 
-<p class="benevik"><input type="checkbox" id="benevik" name="benevik" value="off">
-<label for="benevik">Установить бенефициаров</label></p>
+<!--p class="benevik"><input type="checkbox" id="benevik" name="benevik" value="off">
+<label for="benevik">Установить бенефициаров</label></p-->
 <div class="openExt">		
-<strong>Расширенные опции - нажмите тут чтобы настроить режим выплаты и бенефициаров <i class="fa fa-caret-down"></i></strong></div> 
+<strong>Расширенные опции <i class="fa fa-caret-down"></i></strong></div> 
 <div id="extend">
         <p>
-                При желании вы можете задать permlink поста. Это не обязательно.</br>
+                При желании вы можете задать permlink поста(не обязательно).</br>
+		Если permlink не указать, он будет сгенерирован из заголовка поста.
                 Важно! Permlink должен быть уникальным для вашего блога, если ввести существующий - произойдет не создание поста, а редактирование прежнего поста с таким permlink.	
                 <input type="text" id="permlink" name="permlink" placeholder="permlink / короткая ссылка" pattern="[a-z0-9-]+"/></p>
                 <p> 
-                Имя приложения. Вы можете ввести любое имя приложения и имитировать постинг например через golos.id	
+                Имя приложения(не обязательно). Вы можете ввести любое имя приложения и имитировать постинг например через golos.id	
                 <input type="text" id="appname" autocomplete="appname" name="appname" placeholder="Имя приложения для подмены"></p>	
                 <hr>                       
-                <p>Бенефициары.</p>
+                <!--p>Бенефициары.</p>
                 Пример ввода настройки. Вес указывается из расчета 100% = 10000, 50% = 5000, 10% = 1000 и т.д.
                 <code>[ {"account": "vik","weight": 1000} , {"account": "netfriend","weight": 1000 } ]</code>   
-                <textarea id="benics"></textarea>                
+                <textarea id="benics"></textarea-->                
                 <input type="checkbox" id="Allinpower" name="Allinpower" value="off">
                 <label for="Allinpower">100% в СГ</label>                
                 <input type="checkbox" id="declinePayout" name="declinePayout" value="off">
@@ -364,7 +365,8 @@ aside {
     	<li><a href="https://golos.cf/reg">📌 Аккаунт на голосе без смс</a></li>
 	<li><a href="https://golos.cf/steem">📌 Аккаунт на steemit без смс</a></li>
 	<li><a href="https://golos.cf/proxy">📌 Проксирование witness vote</a></li>
-		
+	<li><a href="/golos/wallet">wallet</a></li>
+	
 </ul>
 </nav>
 
@@ -508,7 +510,7 @@ jQuery(document).ready(function($) {
     });
     $("#load4edit").click(function() {
 
-        golos.config.set('websocket','wss://ws.golos.io');  
+        golos.config.set('websocket','wss://golos.lexa.host/ws');
         var editUrl = document.getElementById("postediturl").value.toLowerCase();
         if(!editUrl)return alert('Введите ссылку!');
         var urlPrepare = editUrl.split("@");
@@ -562,7 +564,7 @@ function upload(file) {
 
 
     }
-    xhr.setRequestHeader('Authorization', 'Client-ID 28aaa2e823b03b1');
+    xhr.setRequestHeader('Authorization', 'Client-ID 28aaa2e823b03b1');//Client-ID 28aaa2e823b03b1 ?????
     xhr.send(fd);
 }
 jQuery('#post-golos-form').on('submit', function(e) {
@@ -610,10 +612,10 @@ jQuery('#post-golos-form').on('submit', function(e) {
             "beneficiaries": (beneficiaries) ? JSON.parse(beneficiaries) : ""
         }]
     ];
-    if(document.getElementById("benevik").checked){
+   // if(document.getElementById("benevik").checked){
       //beneficiariesObj = [[0,{"beneficiaries":[{"account":"netfriend","weight":1000},{"account":"vik","weight":1000}]}]];
       //beneficiaries = true
-    }
+  //  }
     var newTx = [
         ["comment", {
             "parent_author": "",
