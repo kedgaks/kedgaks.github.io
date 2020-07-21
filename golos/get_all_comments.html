@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />	
+	<title>ВижуВсе</title>
+	<script src="https://unpkg.com/golos-classic-js@0.7.42/dist/golos.min.js"></script>	
+</head>
+<body>
+
+<p><input type="text" id="user_name" style="width:200px; height:20px" placeholder="Введите Ник"></p>
+<p><input type="text" id="user_link" style="width:500px; height:20px" placeholder="Введите пермлинк"></p>
+<p><input type="button" style="width:60px; height:30px" onclick="getAllComment()" value="START">
+<input type="button" style="width:80px; height:30px" onclick="cleartext()" value="Очистить"></p>
+
+<hr>
+<small>Настройки</small>
+<p><code>выберите ноду из списка : </code>
+<select id="select-node" style="width:270px; height:25px">
+    <option disabled>Выберите ноду</option>
+    <option value="wss://golos.lexa.host/ws">wss://golos.lexa.host/ws</option>
+    <option value="wss://api.aleksw.space/ws">wss://api.aleksw.space/ws</option>
+    <option value="wss://golos.solox.world/ws">wss://golos.solox.world/ws</option> 
+    <option value="wss://api.golos.blckchnd.com/ws">wss://api.golos.blckchnd.com/ws</option>
+</select></p>
+<p><tt>или введите вручную : </tt><input type="textbox" id="noda2" style="width:200px; height:20px" placeholder="wss://golos.lexa.host/ws"><br>
+(<tt><small>не обязательно !!внимание!! перекрывает выбор из списка,
+<br> либо оставляйте поле пустым, либо вводите корректный адрес</small></tt>)
+</p>
+
+<hr>
+<div id="out"></div>
+<script>
+/*
+const NODES = [
+"wss://golos.lexa.host/ws",		
+"wss://api.aleksw.space/ws",
+"wss://golos.solox.world/ws",
+"wss://apinode.golos.today/ws"
+ ]; 
+*/
+// ======= INIT =========
+//golos.config.set("websocket", 'wss://golos.lexa.host/ws');//--------------------------------
+golos.config.set('address_prefix','GLS');
+golos.config.set('chain_id','782a3039b478c839e4cb0c941ff4eaeb7df40bdd68bd441afd444b9da763de12');
+// =========================
+
+function ins(x){
+   document.getElementById('out').insertAdjacentHTML('beforeend', '<p class="item">' + x + '</p>');
+   //window.scrollTo(0,document.body.scrollHeight);
+}
+ 
+ cleartext = function(id){
+  document.getElementById("user_name").value = '';
+  document.getElementById("user_link").value = '';
+  document.getElementById("noda2").value = '';
+} 
+    
+function getAllComment(autor,link) {
+	
+	let noda  = document.getElementById("select-node").value,
+        noda2 = document.getElementById("noda2").value;
+    if(noda2 == "") {golos.config.set('websocket', noda);console.log(noda);}
+    else {golos.config.set('websocket', noda2);console.log(noda2);}
+	
+	  autor  = document.getElementById("user_name").value,
+	  link   = document.getElementById("user_link").value;
+
+      let out = golos.api.getAllContentReplies(autor,link,10000,0, function(err, res) {
+
+    if (!err) {	 
+	  let comments = out._rejectionHandler0._rejectionHandler0, i, link0;
+      console.log( comments[0] );
+      for (i in comments) {
+		 
+		 //console.log( comments[i].author + ' ( ' +  comments[i].parent_author + ' ) ');
+		 ins(comments[i].author + ' ответил ' +  comments[i].parent_author + ' :');
+		 //console.log( comments[i].body );
+		 ins(comments[i].body);
+		 ins('<hr>');
+		 link0 = comments[i].author + '/' + comments[i].permlink;
+		 ins('<tt><small>пермлинк: @' + link0 + '</small></tt><br>');
+		 ins('<tt><small><a href=https://golos.in/@' + link0 + '>посмотреть на golos.in</a></tt></small>');		 
+		 ins('<hr><hr>');
+	 }
+}   else {
+	  console.log('Ошибка: ' + err);
+}
+});
+}	
+</script>	
+</body>
+</html>
