@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />	
-	<title>ВижуВсе</title>
+	<title>Вижу_Все</title>
 	<script src="https://unpkg.com/golos-classic-js@0.7.42/dist/golos.min.js"></script>	
 </head>
 <body>
@@ -23,8 +23,8 @@
     <option value="wss://api.golos.blckchnd.com/ws">wss://api.golos.blckchnd.com/ws</option>
 </select></p>
 <p><tt>или введите вручную : </tt><input type="textbox" id="noda2" style="width:200px; height:20px" placeholder="wss://golos.lexa.host/ws"><br>
-(<tt><small>не обязательно !!внимание!! перекрывает выбор из списка,
-<br> либо оставляйте поле пустым, либо вводите корректный адрес</small></tt>)
+<tt><small>(не обязательно !!внимание!! перекрывает выбор из списка,
+<br> либо оставляйте поле пустым, либо вводите корректный адрес)</small></tt>
 </p>
 
 <hr>
@@ -78,7 +78,7 @@ function getAllComment(autor,link) {
 		 ins(comments[i].body);
 		 ins('<hr>');
 		 link0 = comments[i].author + '/' + comments[i].permlink;
-		 ins('<tt><small>пермлинк: @' + link0 + '</small></tt><br>');
+		 ins('<tt><small> @' + link0 + '</small></tt><br>');
 		 ins('<tt><small><a href=https://golos.in/@' + link0 + '>посмотреть на golos.in</a></tt></small>');		 
 		 ins('<hr><hr>');
 	 }
