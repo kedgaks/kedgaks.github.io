@@ -10,7 +10,8 @@
 <p><input type="text" id="user_name" style="width:200px; height:20px" placeholder="Введите Ник"></p>
 <p><input type="text" id="user_link" style="width:500px; height:20px" placeholder="Введите пермлинк"></p>
 <p><input type="button" style="width:60px; height:30px" onclick="getAllComment()" value="START">
-<input type="button" style="width:80px; height:30px" onclick="cleartext()" value="Очистить"></p>
+<input type="button" style="width:80px; height:30px" onclick="cleartext()" value="Очистить">
+<input type="button" style="width:80px; height:30px" onclick="help()" value="Справка"></p>
 
 <hr>
 <small>Настройки</small>
@@ -49,15 +50,26 @@ function ins(x){
    //window.scrollTo(0,document.body.scrollHeight);
 }
  
- function cleartext(){
+function cleartext(){
   document.getElementById("user_name").value = '';
   document.getElementById("user_link").value = '';
   document.getElementById("noda2").value = '';
 } 
-    
+
+function help(){
+	let h = '<p >\
+	Тут жирным выделен ник пользователя:<br>\
+	https://golos.in/ru--golos/@<b>kedgaks</b>/szhigaem-izlishki?invite=kedgaks<br>\
+	а тут - пермлинк:<br>\
+	https://golos.in/ru--golos/@kedgaks/<b>szhigaem-izlishki</b>?invite=kedgaks<br>\
+	копируем, вставляем в соответствующие поля, жмем старт</p>';
+	ins(h);
+	
+}
+
 function getAllComment(autor,link) {
 	
-	let noda  = document.getElementById("select-node").value,
+    let noda  = document.getElementById("select-node").value,
         noda2 = document.getElementById("noda2").value;
     if(noda2 == "") {golos.config.set('websocket', noda);console.log(noda);}
     else {golos.config.set('websocket', noda2);console.log(noda2);}
@@ -65,10 +77,10 @@ function getAllComment(autor,link) {
 	  autor  = document.getElementById("user_name").value,
 	  link   = document.getElementById("user_link").value;
 
-      let out = golos.api.getAllContentReplies(autor,link,10000,0, function(err, res) {
+    let out = golos.api.getAllContentReplies(autor,link,10000,0, function(err, res) {
 
     if (!err) {	 
-	  let comments = out._rejectionHandler0._rejectionHandler0, i, link0;
+      let comments = out._rejectionHandler0._rejectionHandler0, i, link0;
       console.log( comments[0] );
       for (i in comments) {
 		 
@@ -82,8 +94,8 @@ function getAllComment(autor,link) {
 		 ins('<tt><small><a href=https://golos.in/@' + link0 + '>посмотреть на golos.in</a></tt></small>');		 
 		 ins('<hr><hr>');
 	 }
-}   else {
-	  console.log('Ошибка: ' + err);
+}  else {
+     console.log('Ошибка: ' + err);
 }
 });
 }	
