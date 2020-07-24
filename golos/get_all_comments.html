@@ -9,9 +9,11 @@
 
 <p><input type="text" id="user_name" style="width:200px; height:20px" placeholder="Введите Ник"></p>
 <p><input type="text" id="user_link" style="width:500px; height:20px" placeholder="Введите пермлинк"></p>
-<p><input type="button" style="width:60px; height:30px" onclick="getAllComment()" value="START">
-<input type="button" style="width:80px; height:30px" onclick="cleartext()" value="Очистить">
-<input type="button" style="width:80px; height:30px" onclick="help()" value="Справка"></p>
+<p>
+<input type="button" style="width: 65px; height:30px; font-weight: bold" onclick="getAllComment()" value="START">
+<input type="button" style="width: 85px; height:30px; font-weight: bold" onclick="cleartext()" value="Очистить">
+<input type="button" style="width: 80px; height:30px; font-weight: bold" onclick="help()"      value="Справка">
+<input type="button" style="width:120px; height:30px; font-weight: bold" onclick="clearAll()"  value="Очистить Все"></p>
 
 <hr>
 <small>Настройки</small>
@@ -56,19 +58,40 @@ function cleartext(){
   document.getElementById("noda2").value = '';
 } 
 
+let hlp = true;
 function help(){
-	let h = '<p >\
+    if(hlp) {
+	let h = '<p>\
 	Тут жирным выделен ник пользователя:<br>\
 	https://golos.in/ru--golos/@<b>kedgaks</b>/szhigaem-izlishki?invite=kedgaks<br>\
 	а тут - пермлинк:<br>\
 	https://golos.in/ru--golos/@kedgaks/<b>szhigaem-izlishki</b>?invite=kedgaks<br>\
 	копируем, вставляем в соответствующие поля, жмем старт</p>';
 	ins(h);
-	
+	ins('<input type="button" style="height:30px" onclick="example()" value="Скопировать ник и пермлинк из примера выше">');
+	hlp = false;
+    }
+}
+
+let ex = true;
+function example(){
+    document.getElementById("user_name").value = 'kedgaks';
+    document.getElementById("user_link").value = 'szhigaem-izlishki';
+    if(ex) {	  
+        ins('чтоб очистить поля жмем [Очистить]');
+        ex = false;
+    }
+}
+
+function clearAll() {
+	cleartext();
+	document.getElementById('out').innerHTML = "";
+	ex = true;hlp = true;
 }
 
 function getAllComment(autor,link) {
-	
+    document.getElementById('out').innerHTML = "";
+    ex = true;hlp = true;
     let noda  = document.getElementById("select-node").value,
         noda2 = document.getElementById("noda2").value;
     if(noda2 == "") {golos.config.set('websocket', noda);console.log(noda);}
