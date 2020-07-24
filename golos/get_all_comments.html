@@ -14,9 +14,10 @@
 <input type="button" style="width: 85px; height:30px; font-weight: bold" onclick="cleartext()" value="Очистить">
 <input type="button" style="width: 80px; height:30px; font-weight: bold" onclick="help()"      value="Справка">
 <input type="button" style="width:120px; height:30px; font-weight: bold" onclick="clearAll()"  value="Очистить Все"></p>
-
 <hr>
-<small>Настройки</small>
+
+<small id="link_setup"><a onclick='ShowText()'>Настройки</a></small>
+<div id="setup" style='display:none'>
 <p><code>выберите ноду из списка : </code>
 <select id="select-node" style="width:270px; height:25px">
     <option disabled>Выберите ноду</option>
@@ -29,8 +30,9 @@
 <tt><small>(не обязательно !!внимание!! перекрывает выбор из списка,
 <br> либо оставляйте поле пустым, либо вводите корректный адрес)</small></tt>
 </p>
-
+</div>
 <hr>
+
 <div id="out"></div>
 <script>
 /*
@@ -46,6 +48,21 @@ const NODES = [
 golos.config.set('address_prefix','GLS');
 golos.config.set('chain_id','782a3039b478c839e4cb0c941ff4eaeb7df40bdd68bd441afd444b9da763de12');
 // =========================
+
+function ShowText()
+{
+document.getElementById("setup").style.display = "";
+document.getElementById("link_setup").innerHTML = '<a onclick=\'HideText()\'>Скрыть</a>';
+//console.log(document.getElementById("link_setup").innerHTML);
+return false;
+}
+
+function HideText()
+{
+document.getElementById("setup").style.display = "none";
+document.getElementById("link_setup").innerHTML = '<a onclick=\'ShowText()\'>Настройки</a>';
+return false;
+}
 
 function ins(x){
    document.getElementById('out').insertAdjacentHTML('beforeend', '<p class="item">' + x + '</p>');
