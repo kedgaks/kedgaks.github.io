@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>буфер обмена</title>
+</head>
+
+<body
+bgcolor=#ffffff>
+
+<div>
+  <input type="text" class="to-copy" placeholder="Type something..." aria-label="Type something">
+  <button class="write-btn">Copy to clipboard</button>
+</div>
+
+<div>
+  <h4 class="clipboard-results"></h3>
+  <button class="read-btn">Paste from clipboard</button>
+</div>
+
+<div>
+  <h4 class="local-storage"></h3>
+  <button class="read-local">local storage</button>
+</div>
+<hr>
+<textarea style="width:200px; height: 60px;" id="area" placeholder="Напишите сообщение здесь"></textarea>
+<br>
+
+<script>
+
+area.value = localStorage.getItem('area');
+area.oninput = () => {
+localStorage.setItem('area', area.value)
+};
+	
+const readBtn = document.querySelector('.read-btn');//кнопка чтения ИЗ буфера
+const writeBtn = document.querySelector('.write-btn');// кнопка записи В буфер
+const readBtnLoc = document.querySelector('.read-local');
+
+const resultsEl = document.querySelector('.clipboard-results');
+const inputEl = document.querySelector('.to-copy');
+const localSt = document.querySelector('.local-storage');
+
+readBtn.addEventListener('click', () => {
+  navigator.clipboard.readText()
+    .then(text => {
+      resultsEl.innerText = text;
+      localStorage.setItem('test', text);// <<===========
+    })
+    .catch(err => {
+      console.log('Something went wrong', err);
+    })
+});
+
+writeBtn.addEventListener('click', () => {
+  const inputValue = inputEl.value.trim();
+  if (inputValue) {
+    navigator.clipboard.writeText(inputValue)
+      .then(() => {
+		//localStorage.setItem('test', inputValue);// <<===========
+        inputEl.value = '';
+        if (writeBtn.innerText !== 'Copied!') {
+          const originalText = writeBtn.innerText;
+          writeBtn.innerText = 'Copied!';
+          setTimeout(() => {
+            writeBtn.innerText = originalText;
+          }, 1000);
+        }
+      })
+      .catch(err => {
+        console.log('Something went wrong', err);
+      })
+  }
+});
+
+readBtnLoc.addEventListener('click', () => {
+  //alert(localStorage.getItem('test'));
+  localSt.innerText = localStorage.getItem('test');
+
+});
+</script>
+
+
+</body>
+</html>
